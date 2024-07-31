@@ -11,7 +11,7 @@ const int BLOCK_L = 1 << 4;
 const int BLOCK_D = 1 << 5;
 const int BLOCK_B = 1 << 6;
 
-const std::vector<int> BLOCK_SIDE = { BLOCK_R, BLOCK_U, BLOCK_F, BLOCK_L, BLOCK_D, BLOCK_B };
+const std::vector<int> BLOCK_FACE = { BLOCK_R, BLOCK_U, BLOCK_F, BLOCK_L, BLOCK_D, BLOCK_B };
 
 class Tree
 {
@@ -35,3 +35,5 @@ public:
 
 	friend std::vector<std::string> solve(const Cube &start_cube, const Cube &finish_cube);
 };
+
+std::vector<std::string> solve(const Cube &start_cube, const Cube &finish_cube);
