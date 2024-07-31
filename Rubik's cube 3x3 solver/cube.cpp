@@ -8,9 +8,15 @@ Cube::Cube()
 			std::fill(v.begin(), v.end(), COLORS[face_index]);
 }
 
+const char &Cube::operator[](const StickerCoords &sticker_coords) const
+{
+	const auto &[face_name, row, col] = sticker_coords;
+	return faces[face_name][row][col];
+}
+
 char &Cube::operator[](const StickerCoords &sticker_coords)
 {
-	const auto&[face_name, row, col] = sticker_coords;
+	const auto &[face_name, row, col] = sticker_coords;
 	return faces[face_name][row][col];
 }
 
@@ -40,6 +46,30 @@ void Cube::print() const
 		}
 		std::cout << '\n';
 	}
+}
+
+std::string Cube::stringify() const
+{
+	std::string res;
+	res.resize(6 * SIDE_LENGTH * SIDE_LENGTH);
+	int i = 0;
+	for (const Face &face : faces)
+		for (const std::vector<char> &row : face)
+			for (char sticker : row)
+				res[i++] = sticker;
+	return res;
+}
+
+bool Cube::operator==(const Cube &other) const
+{
+	for (int face_index = 0; face_index < 6; face_index++)
+		for (int row_index = 0; row_index < SIDE_LENGTH; row_index++)
+			for (int col_index = 0; col_index < SIDE_LENGTH; col_index++)
+			{
+				StickerCoords sticker_coords{(FaceName)face_index, row_index, col_index};
+				if ((*this)[sticker_coords] != other[sticker_coords]) return false;
+			}
+	return true;
 }
 
 const std::string Cube::COLORS = "RWGOYB";

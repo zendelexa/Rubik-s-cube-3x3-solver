@@ -24,12 +24,22 @@ class Cube
 public:
 	Cube(); // Solved cube
 
+	const char &operator[](const StickerCoords &sticker_coords) const;
 	char &operator[](const StickerCoords &sticker_coords);
 
 	void makeMove(FaceName face_name, int reps);
 
 	void print() const;
+	std::string stringify() const;
 
-	
+	bool operator==(const Cube &other) const;
 };
 
+template <>
+struct std::hash<Cube>
+{
+	std::size_t operator()(const Cube &cube) const
+	{
+		return hash<std::string>()(cube.stringify());
+	}
+};
