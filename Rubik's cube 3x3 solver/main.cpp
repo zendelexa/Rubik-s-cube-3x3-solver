@@ -1,5 +1,5 @@
 #include "cube.hpp"
-#include "Tree.hpp"
+#include "tree.hpp"
 
 #include <iostream>
 

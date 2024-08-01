@@ -1,8 +1,9 @@
 #include "cube.hpp"
 
+#include <memory>
+#include <optional>
 #include <queue>
 #include <unordered_map>
-#include <memory>
 
 const int BLOCK_R = 1 << 1;
 const int BLOCK_U = 1 << 2;
@@ -24,11 +25,15 @@ class Tree
 		const Node *parent;
 
 		Node(const Cube &cube, const std::string &move, int blocked_faces, const Node *parent); // Does not perform the move
+
+		std::vector<std::string> getMoveSequence();
 	};
 
 	Node root;
 	std::queue<std::shared_ptr<Node>> bfs_order;
 	std::unordered_map<Cube, std::shared_ptr<Node>> seen_nodes;
+
+	std::optional<Cube> attemptReaching(const Tree &opposite_tree);
 
 public:
 	Tree(const Cube &cube);

@@ -1,4 +1,5 @@
 #include "cube.hpp"
+
 #include <iostream>
 
 Cube::Cube()
