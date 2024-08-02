@@ -28,7 +28,7 @@ public:
 	{}
 
 	template<typename... Args>
-	T *create(Args... args)
+	T *create(Args &...args)
 	{
 		if (chunks.empty() || chunks.back()->size == CHUNK_SIZE)
 		{
