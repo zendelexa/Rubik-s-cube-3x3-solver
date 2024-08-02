@@ -46,8 +46,10 @@ std::optional<Cube> Tree::attemptReaching(const Tree &opposite_tree)
 			if (seen_nodes.contains(new_cube)) continue;
 
 			std::string new_move = FACE_NAMES[face_index] + TURN_AMOUNTS[turns_performed - 1];
-			Tree::Node *new_node = new Tree::Node(new_cube, new_move, new_blocked_faces, current_node.get());
-			bfs_order.push(seen_nodes[new_cube] = std::shared_ptr<Tree::Node>(new_node));
+
+			Tree::Node *new_node = pool.create(new_cube, new_move, new_blocked_faces, current_node);
+			seen_nodes[new_cube] = new_node;
+			bfs_order.push(new_node);
 			
 			if (opposite_tree.seen_nodes.contains(new_cube)) return new_cube;
 		}
@@ -55,11 +57,12 @@ std::optional<Cube> Tree::attemptReaching(const Tree &opposite_tree)
 	return {};
 }
 
-Tree::Tree(const Cube &cube)
+Tree::Tree(const Cube &cube, int pool_chunk_size = 100'000)
 :
-	root(cube)
+	root(cube),
+	pool(pool_chunk_size)
 {
-	bfs_order.push(std::make_shared<Tree::Node>(cube));
+	bfs_order.push(pool.create(cube));
 	seen_nodes[cube] = bfs_order.front();
 }
 

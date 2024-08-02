@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cube.hpp"
+#include "pool.hpp"
 
 #include <memory>
 #include <optional>
@@ -32,13 +33,15 @@ class Tree
 	};
 
 	Node root;
-	std::queue<std::shared_ptr<Node>> bfs_order;
-	std::unordered_map<Cube, std::shared_ptr<Node>> seen_nodes;
+	std::queue<Node *> bfs_order;
+	std::unordered_map<Cube, Node *> seen_nodes;
 
 	std::optional<Cube> attemptReaching(const Tree &opposite_tree);
 
+	Pool<Node> pool;
+
 public:
-	Tree(const Cube &cube);
+	Tree(const Cube &cube, int pool_chunk_size);
 
 	friend std::vector<std::string> solve(const Cube &start_cube, const Cube &finish_cube);
 };
