@@ -1,3 +1,5 @@
+#pragma once
+
 #include "cube.hpp"
 
 #include <memory>
