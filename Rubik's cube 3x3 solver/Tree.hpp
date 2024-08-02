@@ -26,7 +26,7 @@ class Tree
 
 		Node(const Cube &cube, const std::string &move, int blocked_faces, const Node *parent); // Does not perform the move
 
-		std::vector<std::string> getMoveSequence();
+		std::vector<std::string> getMoveSequence() const;
 	};
 
 	Node root;

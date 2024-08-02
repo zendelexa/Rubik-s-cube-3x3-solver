@@ -14,7 +14,7 @@ Tree::Node::Node(const Cube &cube, const std::string &move = NO_MOVE, int blocke
 	parent(parent)
 {}
 
-std::vector<std::string> Tree::Node::getMoveSequence()
+std::vector<std::string> Tree::Node::getMoveSequence() const
 {
 	std::vector<std::string> res;
 	for (const Tree::Node *node = this; node->move != NO_MOVE; node = node->parent)
@@ -28,7 +28,6 @@ std::optional<Cube> Tree::attemptReaching(const Tree &opposite_tree)
 	auto current_node = bfs_order.front();
 	bfs_order.pop();
 
-	Cube &cube = current_node->cube;
 	for (int face_index = 0; face_index < 6; face_index++)
 	{
 		bool is_current_side_blocked = (current_node->blocked_faces & BLOCK_FACE[face_index]) != 0;
@@ -40,7 +39,7 @@ std::optional<Cube> Tree::attemptReaching(const Tree &opposite_tree)
 		if (is_opposite_face_blocked)
 			new_blocked_faces = new_blocked_faces | current_node->blocked_faces;
 
-		Cube new_cube = cube;
+		Cube new_cube = current_node->cube;
 		for (int turns_performed = 1; turns_performed < 4; turns_performed++)
 		{
 			new_cube.makeMove((FaceName)(face_index), 1);
@@ -92,7 +91,7 @@ std::vector<std::string> solve(const Cube &start_cube, const Cube &end_cube)
 		if (last_char == '\'') return std::string(1, move[0]);
 		return std::string(1, move[0]) + '\'';
 	};
-	for (std::string &move : end_moves)
+	for (const std::string &move : end_moves)
 		res.push_back(reverseMove(move));
 
 	return res;
